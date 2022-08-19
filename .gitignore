@@ -54,3 +54,5 @@ dkms.conf
 # Custom
 .vscode
 build
+huge_test.c
+coverage.*
