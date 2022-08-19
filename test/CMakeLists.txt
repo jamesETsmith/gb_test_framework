@@ -27,6 +27,7 @@ add_executable(
     ${CMAKE_SOURCE_DIR}/test/small_test1.c # and put the tests themselves in smaller files
     ${CMAKE_SOURCE_DIR}/test/small_test2.c # so compilitation parallelizes better
     )
+target_link_libraries(small_test gb_fake)
 
 add_test(NAME small_test COMMAND small_test)
 
@@ -34,16 +35,10 @@ add_test(NAME small_test COMMAND small_test)
 add_custom_command(
     COMMAND python 
         ${CMAKE_SOURCE_DIR}/test/make_huge_test.py 
-            -n 100
+            -n 10000
             -o ${CMAKE_SOURCE_DIR}/test/huge_test.c
     OUTPUT ${CMAKE_SOURCE_DIR}/test/huge_test.c
     DEPENDS ${CMAKE_SOURCE_DIR}/test/make_huge_test.py
     )
 add_executable(huge_test ${CMAKE_SOURCE_DIR}/test/huge_test.c)
 add_test(NAME huge_test COMMAND huge_test)
-
-
-# setup_target_for_coverage_lcov(
-#     NAME small_test_cov
-#     EXECUTABLE small_test
-# )

@@ -1,3 +1,4 @@
+[![test_coverage](https://github.com/jamesETsmith/gb_test_framework/actions/workflows/ci_build.yml/badge.svg?branch=main)](https://github.com/jamesETsmith/gb_test_framework/actions/workflows/ci_build.yml)
 # Sandbox for GraphBLAS Test Suites
 This project is a place for me to test out drastic changes to a GraphBLAS test suite I'm working on. Changes may be breaking so use with caution.
 
@@ -11,6 +12,27 @@ From `gb_test_framework`
 cmake -S . -B build
 cmake --build build --parallel
 cmake --build build --target test
+```
+
+If you want to filter and run an individual subtest, you can run something like the following:
+```
+$ ./build/test/small_test --filter="small.add*"
+[==========] Running 2 test suites.
+[ RUN      ] small.add_numbers_1
+[       OK ] small.add_numbers_1 (3.00us)
+[ RUN      ] small.add_numbers_2
+[       OK ] small.add_numbers_2 (5.00us)
+[==========] 2 test suites ran
+[  PASSED  ] 2 suites
+[  FAILED  ] 0 suites
+
+Summary:
+    Total test suites:          7
+    Total suites run:           2
+    Total warnings generated:   0
+    Total suites skipped:       5
+    Total suites failed:        0
+SUCCESS: 2 test suites passed in 0.27ms
 ```
 
 ## Goals
@@ -27,28 +49,3 @@ cmake --build build --target test
 - Parallelizable over tests within a single executable (a bit of a pipe dream especially since we'll eventually want to do this with the simulator)
 - Work well with tools like gcov/llvm-cov
 
-
-## Survey of the Options
-|   Name    | Support C  | Header Only | CMake Interface | Catches Errors | Speed of Running Tests |
-| :-------: | :--------: | :---------: | :-------------: | :------------: | :--------------------: |
-| Criterion |    Yes     |     No      |       Yes       |      Yes       |          Slow          |
-|    Tau    |    Yes     |     Yes     |       Yes       |       No       |          Fast          |
-|  doctest  |     No     |     Yes     |       Yes       |      Yes       |          Fast          |
-| cpputest  | not really |     No      |       Yes       |       ?        |           ?            |
-|  cmocka   |    Yes     |     No      |       Yes       |      Yes       |           ?            |
-
-- [Criterion](https://github.com/Snaipe/Criterion)
-- [Doctest](https://github.com/doctest/doctest)
-- [tau](https://github.com/jasmcaus/tau)
-- [cpputest](https://github.com/cpputest/cpputest)
-- [cmocka](https://cmocka.org/)
-
-For now, due to simplicity, I'll just be using `tau`.
-
-Problems with `tau` so far:
-- Filtering tests works ok when you want to filter only one thing, but I haven't figured out how to use multiple filters yet (it might not be possible).
-- The xml output isn't as useful as other test suites like doctest, it doesn't capture stdout, and doesn't report test status.
-- 
-
-## Notes
-- Dynamically swap libraries during run time

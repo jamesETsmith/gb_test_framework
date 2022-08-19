@@ -11,7 +11,11 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g --coverage")
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
-add_library(gb_fake SHARED ${CMAKE_SOURCE_DIR}/src/gb_fake.c)
+add_library(
+    gb_fake SHARED 
+    ${CMAKE_SOURCE_DIR}/src/gb_fake.c
+    ${CMAKE_SOURCE_DIR}/src/l2/gb_fake_l2.c
+)
 
 #
 # Testing
